@@ -12,25 +12,26 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly StoreContext _storeContext;
-        
-        public ProductsController(StoreContext storeContext)
+        private readonly IProductRepository _productRepository;
+
+        public ProductsController(IProductRepository productRepository)
         {
-            _storeContext = storeContext;
+            _productRepository = productRepository;
 
         }
+
         [HttpGet]
-        public async  Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var products = await _storeContext.Products.ToListAsync();
+            var products = await _productRepository.GetProductsAsync();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
         public async Task<Product> GetProduct(int id)
         {
-            var product = await _storeContext.Products.FindAsync(id);
-            return product ;
+            var product = await _productRepository.GetProductByIdAsync(id);
+            return product;
         }
 
     }
