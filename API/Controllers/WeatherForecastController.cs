@@ -27,6 +27,7 @@ namespace API.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
+            
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
@@ -34,6 +35,17 @@ namespace API.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [HttpGet("{city}")]
+        public WeatherForecast Get(string city)
+        {
+            if (!string.Equals(city?.TrimEnd(), "Redmond", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException(
+                    $"We don't offer a weather forecast for {city}.", nameof(city));
+            }
+
+            return Get().First();
         }
     }
 }

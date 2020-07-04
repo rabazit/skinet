@@ -5,3 +5,5 @@ appsetting.json
 /.vs/skinet/v16/Server/sqlite3
 /.vs/slnx.sqlite
 /API/wwwroot/images/products
+ssl
+

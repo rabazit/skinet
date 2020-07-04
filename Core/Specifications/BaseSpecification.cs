@@ -8,8 +8,8 @@ namespace Core.Specifications
     {
         public BaseSpecification()
         {
-                
-        } 
+
+        }
         public BaseSpecification(Expression<Func<T, bool>> criteria)
         {
             Criteria = criteria;
@@ -21,9 +21,32 @@ namespace Core.Specifications
         public List<Expression<Func<T, object>>> Includes { get; } =
             new List<Expression<Func<T, object>>>();
 
+        public Expression<Func<T, object>> OrderBy { get; private set; }
+        public Expression<Func<T, object>> OrderByDescending { get; private set; }
+        public int Take { get; private set; }
+        public int Skip { get; private set; }
+        public bool IsPagingEnable { get; private set; }
+
         protected void AddInclude(Expression<Func<T, object>> includeExpression)
         {
             Includes.Add(includeExpression);
+        }
+
+        protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
+        {
+            OrderBy = orderByExpression;
+        }
+
+        protected void AddByOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
+        {
+            OrderByDescending = orderByDescendingExpression;
+        }
+
+        protected void ApplyPaging(int skip, int take)
+        {
+            Take = take;
+            Skip = skip;
+            IsPagingEnable = true;
         }
 
     }
