@@ -56,8 +56,16 @@ namespace API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "SkiNet API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SkiNet API", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    policy => { policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"); });
+            });
+
+
 
         }
 
@@ -77,11 +85,11 @@ namespace API
 
             app.UseRouting();
             app.UseStaticFiles();
-
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
 
             app.UseSwagger();
-     
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
